@@ -63,7 +63,10 @@
 
 URxvt.font: xft:hack:bold:size=10
 xvt*dynamicColors: on
-!urxvt*transparent: true
-!urxvt*shading: 15
 xvt.intensityStyles: false
 URxvt.scrollBar: false
+
+
+!URxvt*termName:                 rxvt-256color
+!URxvt.depth: 32
+!urxvt -depth 32 -bg rgba:0000/0000/0000/4444 -fg "[80]pink"

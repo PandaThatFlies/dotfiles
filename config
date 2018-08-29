@@ -26,6 +26,12 @@ font pango:Cantarell 10
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
+#gaps
+gaps inner 10
+gaps outer 5
+smart_gaps on
+
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -165,19 +171,6 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 
 hide_edge_borders both
 
-# bar
-bar {
-  	#status_command i3blocks -c /home/shota/.config/i3/i3blocks.conf
-	status_command python /home/shota/.config/i3/i3pystatusconf.py
-	colors {
-		background $bg-color
-	    	separator #757575
-		#                  border             background         text
-		focused_workspace  $bg-color          $bg-color          $text-color
-		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-	}
-}
 
 
 #Media keys
@@ -185,33 +178,40 @@ bar {
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-bindsym $mod+shift+m exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound above doens't work on this system
+#bindsym $mod+shift+m exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound above doens't work on this system
 #
 # # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+#bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+#bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+#backlight didn't work on this system
+bindsym XF86MonBrightnessUp exec light -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
 #
 # # Touchpad controls
-# bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
-bindsym $mod+shift+p exec  /home/shota/Scripts/toggletouchpad.sh
+#bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 #
 # # Media player controls
-bindsym XF86AudioPlay exec playerctl play
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioStop exec mpc stop
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
 
 #Custom Shortcut
-bindsym $mod+shift+x exec /home/shota/Scripts/lock.sh
+bindsym $mod+x exec ~/.config/i3/lock.sh
 bindsym $mod+z exec mpc toggle
-bindsym $mod+x exec mpc next
+bindsym --release Print exec "scrot  ~/Pictures/Screenshots/screenshot_%Y%m%d_%H%M%S.png -e 'xclip -selection clipboard -t image/png < $f'"
+#bindsym $mod+x exec mpc next
 bindsym $mod+shift+f exec thunar
 bindsym $mod+shift+w exec firefox
+#keyboard layout
+exec --no-startup-id "setxkbmap -model pc105 -layout us,ge -option grp:alt_shift_toggle"
+
 
 #Startup
+exec_always --no-startup-id ~/.config/i3/polybar.sh &
 exec compton --config ~/.config/compton.conf -f
 exec mpd
-exec_always /home/shota/.config/i3/update_background.sh
+exec_always ~/.config/i3/update_background.sh
 
 #Windows and borders
 # border / titlebar
